@@ -3,6 +3,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import morgan from "morgan"
 import { config } from "dotenv"
+import { connectDB } from "./config/db.js"
 config()
 
 //---//
@@ -25,6 +26,7 @@ server.use((err : Error, _: Request, res : Response, __: NextFunction )=>{
 })
 
 
-server.listen(process.env.PORT,()=>{
+server.listen(process.env.PORT, async ()=>{
+    await connectDB()
     console.log(`server is running on port ${process.env.PORT}`)
 })
