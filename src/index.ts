@@ -23,3 +23,8 @@ server.use((err : Error, _: Request, res : Response, __: NextFunction )=>{
     console.error(err)
     return res.status(500).send("something went wrong")
 })
+
+
+server.listen(process.env.PORT,()=>{
+    console.log(`server is running on port ${process.env.PORT}`)
+})
