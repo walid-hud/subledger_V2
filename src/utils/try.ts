@@ -9,3 +9,12 @@ export async function wrap<T, E = Error>(
     return [null, error as E];
   }
 }
+
+export function wrapSync<T, E = Error>(fn: () => T): Result<T, E> {
+  try {
+    const data = fn();
+    return [data, null];
+  } catch (error) {
+    return [null, error as E];
+  }
+}

@@ -13,6 +13,7 @@ users and admins are authenticated using JWT tokens. Admins can manage users whi
 MONGO_URI=your_mongodb_uri
 MONGO_DB_NAME=your_database_name
 JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=your_jwt_expiration_time (default is 1h)
 PORT=your_port_number
 ```
 4. Start the server using `pnpm dev or npm run dev`
