@@ -4,6 +4,7 @@ import cors from "cors"
 import morgan from "morgan"
 import { connectDB } from "./config/db.js"
 import { globalErrorHandler } from "./middleware/global.js"
+import { NotFoundError } from "./utils/errors.js"
 import authRoutes from "./routes/auth.routes.js"
 
 const server = express()
@@ -16,8 +17,8 @@ server.use("/api/auth", authRoutes)
 
 
 // catch all
-server.use((_,res)=>{
-    return res.status(404).json({success:false, error:"not found"})
+server.use((_, __, next)=>{
+    next(new NotFoundError("Route not found"))
 })
 
 // global error handler

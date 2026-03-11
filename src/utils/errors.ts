@@ -1,18 +1,18 @@
 import {ZodIssue} from "zod";
-const enum ERROR_CODES {
-  INTERNAL_ERROR = "INTERNAL_ERROR",
-  NOT_FOUND = "NOT_FOUND",
-  BAD_REQUEST = "BAD_REQUEST",
-  VALIDATION_ERROR = "VALIDATION_ERROR",
-  UNAUTHORIZED = "UNAUTHORIZED",
-  FORBIDDEN = "FORBIDDEN",
-  CONFLICT = "CONFLICT",
-}
+const  ERROR_CODES = {
+  INTERNAL_ERROR : "INTERNAL_ERROR",
+  NOT_FOUND : "NOT_FOUND",
+  BAD_REQUEST : "BAD_REQUEST",
+  VALIDATION_ERROR : "VALIDATION_ERROR",
+  UNAUTHORIZED : "UNAUTHORIZED",
+  FORBIDDEN : "FORBIDDEN",
+  CONFLICT : "CONFLICT",
+} as const
 
 interface IAppError {
   statusCode: number;
   status: "error";
-  code: ERROR_CODES;
+  code: typeof ERROR_CODES[keyof typeof ERROR_CODES];
   message: string;
   errors?: any[];
 }
@@ -20,13 +20,13 @@ interface IAppError {
 class AppError extends Error implements IAppError {
   public statusCode: number;
   public status: "error";
-  public code: ERROR_CODES;
+  public code: typeof ERROR_CODES[keyof typeof ERROR_CODES];
   public message: string;
   public errors?: any[];
 
   constructor(
     statusCode: number,
-    code: ERROR_CODES,
+    code: typeof ERROR_CODES[keyof typeof ERROR_CODES],
     message: string,
     errors?: any[],
   ) {

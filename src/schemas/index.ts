@@ -16,6 +16,8 @@ export const UserSignUpSchema = z.object({
   }),
 });
 
+
+
 export const JwtUserSchema = z.object({
   userId: z.string(),
   email: z.string(),
