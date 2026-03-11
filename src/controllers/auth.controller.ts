@@ -10,7 +10,7 @@ const login = catchAsync(async (req, res) => {
   const user = await getUser({email});
   const isValid = comparePassword(password, user.password_hash);
   if (!isValid) {
-    throw new UnauthorizedError("Invalid credentials");
+    throw new UnauthorizedError("Invalid credentials password");
   }
   const token = generateToken({
     id: user._id.toString(),

@@ -6,13 +6,13 @@ import { connectDB } from "./config/db.js"
 import { globalErrorHandler } from "./middleware/global.js"
 import { NotFoundError } from "./utils/errors.js"
 import authRoutes from "./routes/auth.routes.js"
-
+import userRoutes from "./routes/user.routes.js"
 const server = express()
 server.use(morgan("dev"))
 server.use(cors())
 server.use(express.json())
 server.use("/api/auth", authRoutes)
-
+server.use("/api/users" , userRoutes)
 
 
 

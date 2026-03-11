@@ -1,20 +1,19 @@
 import env from "../config/env.js";
 import jwt from "jsonwebtoken"
 import { UnauthorizedError, ValidationError } from "../utils/errors.js";
-import { ZodType } from "zod";
+import z , { ZodType } from "zod";
 
 
-export const varifyToken = (token:string)=>{
-    jwt.verify(token , env.JWT_SECRET_KEY , (err , decoded)=>{
-        if(err){
-            throw new UnauthorizedError("Invalid credentials")
-        }
-        return decoded
-    })
+export const verifyToken = (token:string)=>{
+    try {
+        return jwt.verify(token, env.JWT_SECRET_KEY)
+    } catch {
+        throw new UnauthorizedError("Invalid credentials")
+    }
 }
 
-export const validateToken = (token:string , schema:ZodType)=>{
-    const {success ,data } = schema.safeParse(token)
+export const validateToken = <T extends ZodType>(payload: unknown, schema:T): z.infer<T>=>{
+    const {success ,data } = schema.safeParse(payload)
     if(!success){
         throw new ValidationError("invalid token data")
     }

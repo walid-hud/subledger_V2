@@ -9,6 +9,7 @@ export const validate = (schema: ZodType) =>
         body: req.body,
         query: req.query,
         params: req.params,
+        headers: req.headers,
       });
 
       Object.assign(req, result); // Merge validated data into req      
@@ -20,3 +21,4 @@ export const validate = (schema: ZodType) =>
       next(error);
     }
   };
+

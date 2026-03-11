@@ -19,7 +19,7 @@ export const UserSignUpSchema = z.object({
 
 
 export const JwtUserSchema = z.object({
-  userId: z.string(),
+  id: z.string(),
   email: z.string(),
   role: z.enum(["user", "admin"]),
 });
