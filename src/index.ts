@@ -1,17 +1,18 @@
-import express , {NextFunction, Request , Response }from "express"
+import env from "./config/env.js"
+import express from "express"
 import cors from "cors"
-import cookieParser from "cookie-parser"
 import morgan from "morgan"
-import { config } from "dotenv"
 import { connectDB } from "./config/db.js"
-config()
+import { globalErrorHandler } from "./middleware/global.js"
+import authRoutes from "./routes/auth.routes.js"
 
-//---//
 const server = express()
 server.use(morgan("dev"))
 server.use(cors())
 server.use(express.json())
-server.use(cookieParser())
+server.use("/api/auth", authRoutes)
+
+
 
 
 // catch all
@@ -20,13 +21,10 @@ server.use((_,res)=>{
 })
 
 // global error handler
-server.use((err : Error, _: Request, res : Response, __: NextFunction )=>{
-    console.error(err)
-    return res.status(500).send("something went wrong")
-})
+server.use(globalErrorHandler)
 
 
-server.listen(process.env.PORT, async ()=>{
+server.listen(env.PORT, async ()=>{
     await connectDB()
     console.log(`server is running on port ${process.env.PORT}`)
 })

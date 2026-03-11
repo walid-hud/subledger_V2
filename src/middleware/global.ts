@@ -1,5 +1,5 @@
 import {AppError, ValidationError} from "../utils/errors.js";
-import {Request, Response, NextFunction} from "express";
+import {Request, Response, NextFunction , RequestHandler} from "express";
 
 export const globalErrorHandler = (
   err: Error | AppError,
@@ -19,4 +19,17 @@ export const globalErrorHandler = (
     status: "error",
     message: "Internal Server Error",
   });
+};
+
+
+
+type AsyncRequestHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => Promise<any>;
+export const catchAsync = (fn: AsyncRequestHandler): RequestHandler => {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
 };

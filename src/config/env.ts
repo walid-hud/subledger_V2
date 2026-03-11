@@ -9,21 +9,22 @@ import { config } from "dotenv";
 
 const envSchema = z.object({
   PORT: z.string().default("3000"),
-  MONGO_URI: z.string(),
-  JWT_SECRET_KEY: z.string(),
+  MONGODB_URI: z.string(),
+  MONGODB_DB_NAME: z.string().default("subledger_v1"),
+  JWT_SECRET_KEY: z.string().min(32 , {message:"jwt secret key too short "}),
   JWT_EXPIRES_IN: z.string().default("1h"),
 });
-export type Env = z.infer<typeof envSchema>;
 
 function loadEnv(): Env {
   config();
   const { success, data, error } = envSchema.safeParse(process.env);
   if (!success) {
-    console.error("Invalid environment variables", z.treeifyError(error));
+    console.error("Invalid environment variables", error.message);
     process.exit(1);
   }
   return data;
 }
 
 const env = loadEnv();
+export type Env = z.infer<typeof envSchema>;
 export default env;

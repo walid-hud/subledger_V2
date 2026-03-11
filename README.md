@@ -3,7 +3,9 @@ This is a simple subscription mangement API built using NodeJS, Express and Mong
 users and admins are authenticated using JWT tokens. Admins can manage users while users can only manage their own subscriptions.
 
 ## UML Diagram
-![UML Diagram](./diagram.svg)
+<img src="./use_cases_diagram.svg" alt="UML Diagram" style="width:100%; height:auto;">
+<img src="./class_diagrams.svg" alt="class Diagram" style="width:100%; height:auto;">
+</div>
 
 ## Installation
 1. Clone the repository
