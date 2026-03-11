@@ -14,7 +14,13 @@ server.use(express.json())
 server.use("/api/auth", authRoutes)
 server.use("/api/users" , userRoutes)
 
-
+// health check
+server.get("/health", (req, res)=>{
+    res.status(200).json({
+        status: "success",
+        message: "Server is healthy"
+    })
+})
 
 // catch all
 server.use((_, __, next)=>{
