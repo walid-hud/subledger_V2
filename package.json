@@ -1,6 +1,6 @@
 {
-  "name": "SubLedger_v1",
-  "version": "1.0.0",
+  "name": "subledger",
+  "version": "0.0.1",
   "description": "",
   "type": "module",
   "main": "index.js",
