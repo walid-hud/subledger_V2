@@ -1,0 +1,27 @@
+meta {
+  name: Create Subscription
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/subscriptions
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Netflix",
+    "price": 14.99,
+    "billing_cycle": "monthly"
+  }
+}

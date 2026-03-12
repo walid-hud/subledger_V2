@@ -1,0 +1,27 @@
+meta {
+  name: Update Subscription
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/subscriptions/{{subscriptionId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Netflix Premium",
+    "price": 19.99,
+    "billing_cycle": "monthly"
+  }
+}

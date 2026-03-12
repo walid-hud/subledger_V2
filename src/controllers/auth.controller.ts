@@ -7,7 +7,7 @@ import {generateToken} from "../services/jwt.service.js";
 
 const login = catchAsync(async (req, res) => {
   const {password, email} = req.body;
-  const user = await getUser({email});
+  const user = await getUser({email} , {__v: 0 , subscriptions: 0});
   const isValid = await comparePassword(password, user.password_hash);
   if (!isValid) {
     throw new UnauthorizedError("Invalid credentials password");
