@@ -8,7 +8,7 @@ import {generateToken} from "../services/jwt.service.js";
 const login = catchAsync(async (req, res) => {
   const {password, email} = req.body;
   const user = await getUser({email});
-  const isValid = comparePassword(password, user.password_hash);
+  const isValid = await comparePassword(password, user.password_hash);
   if (!isValid) {
     throw new UnauthorizedError("Invalid credentials password");
   }
@@ -17,7 +17,8 @@ const login = catchAsync(async (req, res) => {
     email: user.email,
     role: user.role,
   });
-  return sendResponse(res, 200, {user, token});
+  
+  return sendResponse(res, 200, {user:{...user.toObject() , password_hash: undefined}, token});
 });
 
 const signup = catchAsync(async (req, res) => {
@@ -27,7 +28,7 @@ const signup = catchAsync(async (req, res) => {
   if (!user) {
     throw new AppError(400, "INTERNAL_ERROR", "Failed to create user");
   }
-  return sendResponse(res, 201, {user});
+  return sendResponse(res, 201, {user:{...user.toObject() , password_hash: undefined}});
 });
 
 export default {login, signup};

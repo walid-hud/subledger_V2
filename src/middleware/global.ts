@@ -14,11 +14,13 @@ export const globalErrorHandler = (
       // wierd syntax but it only adds the errors property if the error is a ValidationError
       ...(err instanceof ValidationError && {errors: err.errors}),
       code: err.code,
+      stack:err.stack
     });
   }
   return res.status(500).json({
     status: "error",
     message: "Internal Server Error",
+    stack:err.stack
   });
 };
 

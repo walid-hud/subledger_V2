@@ -20,7 +20,6 @@ export const getUser = async (userData:{
   email:string 
 }) =>{
   const user = await User.findOne({email:userData.email} , {
-    password_hash:0,
     subscriptions:0,
     __v:0
   })
