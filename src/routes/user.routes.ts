@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {authenticate, hasToken} from "../middleware/auth.js";
+import {authenticate, authorize, requireToken} from "../middleware/auth.js";
 import subscriptionController from "../controllers/subscription.controller.js";
 import {
 	PatchSubscriptionsSchema,
@@ -10,7 +10,7 @@ import {validate} from "../middleware/validate.js";
 
 const router = Router();
 
-router.use(hasToken, authenticate);
+router.use(requireToken, authenticate , authorize(['user']));
 router.get("/profile", subscriptionController.getProfile);
 
 router.post(

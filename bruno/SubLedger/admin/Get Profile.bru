@@ -1,0 +1,20 @@
+meta {
+  name: Get Profile
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/admin/profile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjJjM2NmMTEyNjMyYjU0Y2FjNmEwOSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzMzMjMyMzgsImV4cCI6MTc3MzMyNjgzOH0.rtYenl8x8P79CnrvYc35icmEgZ6W-SIsZtxZR8TGeTY
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

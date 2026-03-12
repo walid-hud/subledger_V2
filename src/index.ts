@@ -7,6 +7,7 @@ import { globalErrorHandler } from "./middleware/global.js"
 import { NotFoundError } from "./utils/errors.js"
 import authRoutes from "./routes/auth.routes.js"
 import userRoutes from "./routes/user.routes.js"
+import adminRoutes from "./routes/admin.routes.js"
 const server = express()
 server.use(morgan("dev"))
 server.use(cors())
@@ -15,6 +16,7 @@ server.use(cors())
 server.use(express.json())
 server.use("/auth", authRoutes)
 server.use("/subscriptions" , userRoutes)
+server.use("/admin" , adminRoutes)
 
 // health check
 server.get("/health", (req, res)=>{
