@@ -14,6 +14,7 @@ const envSchema = z.object({
   JWT_SECRET_KEY: z.string().min(32 , {message:"jwt secret key too short "}),
   JWT_EXPIRES_IN: z.string().default("1h"),
 });
+export type Env = z.infer<typeof envSchema>;
 
 function loadEnv(): Env {
   config();
@@ -26,5 +27,4 @@ function loadEnv(): Env {
 }
 
 const env = loadEnv();
-export type Env = z.infer<typeof envSchema>;
 export default env;

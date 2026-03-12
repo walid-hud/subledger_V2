@@ -10,6 +10,8 @@ import userRoutes from "./routes/user.routes.js"
 const server = express()
 server.use(morgan("dev"))
 server.use(cors())
+
+
 server.use(express.json())
 server.use("/api/auth", authRoutes)
 server.use("/api/users" , userRoutes)
@@ -18,7 +20,7 @@ server.use("/api/users" , userRoutes)
 server.get("/health", (req, res)=>{
     res.status(200).json({
         status: "success",
-        message: "Server is healthy"
+        message: "Server is healthy",
     })
 })
 

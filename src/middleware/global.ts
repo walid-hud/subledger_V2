@@ -11,6 +11,7 @@ export const globalErrorHandler = (
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
+      // wierd syntax but it only adds the errors property if the error is a ValidationError
       ...(err instanceof ValidationError && {errors: err.errors}),
       code: err.code,
     });
