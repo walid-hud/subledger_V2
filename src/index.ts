@@ -13,8 +13,8 @@ server.use(cors())
 
 
 server.use(express.json())
-server.use("/api/auth", authRoutes)
-server.use("/api/users" , userRoutes)
+server.use("/auth", authRoutes)
+server.use("/subscriptions" , userRoutes)
 
 // health check
 server.get("/health", (req, res)=>{

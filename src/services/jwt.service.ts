@@ -25,7 +25,7 @@ export const generateToken = (payload:string|object)=>{
     // @ts-ignore because expiresIn expects number | ms.StringValue | undefined
     // but we have it as a plain string in env
     const token = jwt.sign(payload , env.JWT_SECRET_KEY , {
-        expiresIn:"1m" // 1 minute for testing purposes
+        expiresIn:env.JWT_EXPIRES_IN
     })
     return token
 }
