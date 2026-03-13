@@ -1,5 +1,5 @@
-import z from "zod";
-import { config } from "dotenv";
+import z from 'zod';
+import { config } from 'dotenv';
 
 /*
   we use zod to validate the environment variables 
@@ -8,22 +8,24 @@ import { config } from "dotenv";
 */
 
 const envSchema = z.object({
-  PORT: z.string().default("3000"),
-  MONGODB_URI: z.string(),
-  MONGODB_DB_NAME: z.string().default("subledger_v1"),
-  JWT_SECRET_KEY: z.string().min(32 , {message:"jwt secret key too short "}),
-  JWT_EXPIRES_IN: z.string().default("1h"),
+	PORT: z.string().default('3000'),
+	MONGODB_URI: z.string(),
+	MONGODB_DB_NAME: z.string().default('subledger_v1'),
+	JWT_SECRET_KEY: z
+		.string()
+		.min(32, { message: 'jwt secret key too short ' }),
+	JWT_EXPIRES_IN: z.string().default('1h'),
 });
 export type Env = z.infer<typeof envSchema>;
 
 function loadEnv(): Env {
-  config();
-  const { success, data, error } = envSchema.safeParse(process.env);
-  if (!success) {
-    console.error("Invalid environment variables", error.message);
-    process.exit(1);
-  }
-  return data;
+	config();
+	const { success, data, error } = envSchema.safeParse(process.env);
+	if (!success) {
+		console.error('Invalid environment variables', error.message);
+		process.exit(1);
+	}
+	return data;
 }
 
 const env = loadEnv();

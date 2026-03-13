@@ -107,17 +107,20 @@ This repo brief focuses on the **backend**: secure API, Express middlewares, JWT
 
 ---
 
-### To Do List
+### Remaining Roadmap (Post-v1)
 
-- [ ] Create Mongoose schemas for User, Subscription, Transaction.  
-- [ ] Implement auth routes and JWT flow.  
-- [ ] Add bcrypt hashing on user creation.  
-- [ ] Build auth middleware and role middleware.  
-- [ ] Build ownership middleware and attach to subscription/transaction routes.  
-- [ ] Add Joi/express-validator schemas and central error handler.  
-- [ ] Implement transaction creation logic with monthly limit warning.  
-- [ ] Add `GET /users/me/financial-summary`.  
-- [ ] Draw required UML diagrams and add to repo.  
-- [ ] Test endpoints and verify HTTP statuses and JSON errors.
+Only the features still missing after the first implementation pass are listed below.
 
-If you want, I can convert the route list into a Postman collection or a minimal OpenAPI spec next.
+- [ ] Add a Transaction model and related validation schema (amount, paymentDate, status, subscriptionId).
+- [ ] Add transaction endpoints:
+  - `POST /transactions`
+  - `GET /transactions/subscription/:subscriptionId`
+  - `GET /transactions/user/:userId` (admin only)
+- [ ] Implement monthly spending limit warning logic during transaction creation (warn, do not block).
+- [ ] Extend subscription details response to include its transactions and total spent.
+- [ ] Add admin user detail endpoint to return one user with subscriptions and totals (`GET /admin/users/:id` or equivalent).
+- [ ] Add `GET /users/me/financial-summary` with: total subscriptions, total spent, most expensive subscription, least expensive subscription.
+- [ ] Complete missing UML artifacts (Use Case Diagram and Sequence Diagram).
+- [ ] Update OpenAPI and Bruno requests for all new/remaining endpoints.
+- [ ] Test all newly added routes and error paths; verify consistent JSON error responses and HTTP statuses.
+
