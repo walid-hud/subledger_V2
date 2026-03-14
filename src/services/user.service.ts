@@ -1,14 +1,9 @@
 import mongoose from 'mongoose';
-import User, { IUser } from '../models/User.model.js';
+import User, { IUserCreate } from '../models/User.model.js';
+import Subscription from '../models/Subscription.model.js';
 import { ConflictError, NotFoundError } from '../utils/errors.js';
 
-export const createUser = async (userData: {
-	username: string;
-	email: string;
-	password_hash: string;
-	role: 'admin' | 'user';
-	subscriptions?: any[];
-}) => {
+export const createUser = async (userData: IUserCreate) => {
 	const userExists = await User.findOne({ email: userData.email });
 	if (userExists) {
 		throw new ConflictError('A user with this email already exists');
@@ -24,10 +19,8 @@ export const getUser = async (
 	},
 	project?: mongoose.ProjectionType<any>,
 ) => {
-	const user = await User.findOne(
-		{ email: query.email },
-		project || undefined,
-	);
+	const filter = query.id ? { _id: query.id } : { email: query.email };
+	const user = await User.findOne(filter, project || undefined);
 	if (!user) {
 		throw new NotFoundError('User not found');
 	}
@@ -42,35 +35,39 @@ export const createUserSubscription = async (
 		billing_cycle: 'monthly' | 'yearly';
 	},
 ) => {
-	const user = await User.findById(userId);
+	const user = await User.findById(userId, '_id');
 	if (!user) {
 		throw new NotFoundError('User not found');
 	}
 
-	user.subscriptions.push(payload as any);
-	await user.save();
-	return user.subscriptions[user.subscriptions.length - 1];
+	return await Subscription.create({
+		...payload,
+		user: user._id,
+	});
 };
 
 export const listUserSubscriptions = async (userId: string) => {
-	const user = await User.findById(userId, 'subscriptions');
+	const user = await User.findById(userId, '_id');
 	if (!user) {
 		throw new NotFoundError('User not found');
 	}
 
-	return user.subscriptions;
+	return await Subscription.find({ user: user._id });
 };
 
 export const getUserSubscriptionById = async (
 	userId: string,
 	subscriptionId: string,
 ) => {
-	const user = await User.findById(userId, 'subscriptions');
+	const user = await User.findById(userId, '_id');
 	if (!user) {
 		throw new NotFoundError('User not found');
 	}
 
-	const subscription = (user.subscriptions as any).id(subscriptionId);
+	const subscription = await Subscription.findOne({
+		_id: subscriptionId,
+		user: user._id,
+	});
 	if (!subscription) {
 		throw new NotFoundError('Subscription not found');
 	}
@@ -87,18 +84,20 @@ export const updateUserSubscription = async (
 		billing_cycle: 'monthly' | 'yearly';
 	}>,
 ) => {
-	const user = await User.findById(userId);
+	const user = await User.findById(userId , '_id');
 	if (!user) {
 		throw new NotFoundError('User not found');
 	}
 
-	const subscription = (user.subscriptions as any).id(subscriptionId);
+	const subscription = await Subscription.findOneAndUpdate(
+		{ _id: subscriptionId, user: user._id },
+		patch,
+		{ new: true, runValidators: true },
+	);
 	if (!subscription) {
 		throw new NotFoundError('Subscription not found');
 	}
 
-	Object.assign(subscription, patch);
-	await user.save();
 	return subscription;
 };
 
@@ -106,18 +105,18 @@ export const deleteUserSubscription = async (
 	userId: string,
 	subscriptionId: string,
 ) => {
-	const user = await User.findById(userId);
+	const user = await User.findById(userId, '_id');
 	if (!user) {
 		throw new NotFoundError('User not found');
 	}
 
-	const subscription = (user.subscriptions as any).id(subscriptionId);
-	if (!subscription) {
+	const deleted = await Subscription.findOneAndDelete({
+		_id: subscriptionId,
+		user: user._id,
+	});
+	if (!deleted) {
 		throw new NotFoundError('Subscription not found');
 	}
-
-	subscription.deleteOne();
-	await user.save();
 };
 
 export const getAllUsers = async () => {
@@ -126,7 +125,6 @@ export const getAllUsers = async () => {
 		{
 			password_hash: 0,
 			__v: 0,
-			subscriptions: 0,
 		},
 	);
 };
