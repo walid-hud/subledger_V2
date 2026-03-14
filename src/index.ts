@@ -1,6 +1,5 @@
 import env from "./config/env.js"
 import express from "express"
-import cors from "cors"
 import morgan from "morgan"
 import { connectDB } from "./config/db.js"
 import { globalErrorHandler } from "./middleware/global.js"
@@ -11,14 +10,13 @@ import adminRoutes from "./routes/admin.routes.js"
 import subscriptionRoutes from "./routes/subscription.route.js"
 const server = express()
 server.use(morgan("dev"))
-server.use(cors())
 
 
 server.use(express.json())
 server.use("/auth", authRoutes)
 server.use("/admin" , adminRoutes)
 server.use("/subscriptions", subscriptionRoutes)
-server.use("/" , userRoutes)
+server.use("/users" , userRoutes)
 
 // health check
 server.get("/health", (req, res)=>{
