@@ -3,11 +3,11 @@ import {catchAsync} from "../middleware/global.js";
 import {
     createUserSubscription,
     deleteUserSubscription,
-    getUser,
     getUserSubscriptionById,
     listUserSubscriptions,
     updateUserSubscription,
-} from "../services/user.service.js";
+} from "../services/subscription.service.js";
+import {getUser} from "../services/user.service.js";
 import {sendResponse} from "../utils/response.js";
 
 

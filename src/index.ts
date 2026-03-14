@@ -17,6 +17,7 @@ server.use(cors())
 server.use(express.json())
 server.use("/auth", authRoutes)
 server.use("/admin" , adminRoutes)
+server.use("/subscriptions", subscriptionRoutes)
 server.use("/" , userRoutes)
 
 // health check
