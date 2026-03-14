@@ -36,5 +36,6 @@ export const transactionSchema = new mongoose.Schema<ITransaction>({
 
 
 const Transaction = mongoose.model("Transaction", transactionSchema);
+export type TransactionData = Omit<ITransaction, "createdAt" | "updatedAt">;
 
 export default Transaction;
