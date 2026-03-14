@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Handler, Response } from 'express';
 
 export interface ApiResponse<T> {
   status: "success" ;
@@ -23,3 +23,8 @@ export const sendResponse = <T>(
 
   return res.status(statusCode).json(responseBody);
 };
+
+export const placeholder : Handler = (req,res)=>{
+  const {user , params , body} = req 
+  return sendResponse(res , 200 , {user , params , body })
+} 
