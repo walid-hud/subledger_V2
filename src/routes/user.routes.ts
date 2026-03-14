@@ -5,6 +5,6 @@ import userController from "../controllers/user.controller.js";
 const router = Router();
 
 router.use(requireToken, authenticate , authorize(['user']));
-router.get("/profile", userController.getUserProfile);
+router.get("/me", userController.getUserProfile);
 
 export default router;
