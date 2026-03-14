@@ -15,6 +15,10 @@ export const getProfile: Handler = catchAsync(async (req, res) => {
     return sendResponse(res, 200, user);
 });
 
+export const getUserDetails: Handler = catchAsync(async (req, res) => {
+    
+});
+
 export default {
     getUsers,
     getProfile
